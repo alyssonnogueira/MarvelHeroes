@@ -5,9 +5,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 public class HeroPageActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,6 +18,10 @@ public class HeroPageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_hero_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Hero hero = getIntent().getParcelableExtra("HERO");
+
+        Log.d("HEROPAGEACTIVITY", "Receive hero "+ hero.getName());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -24,5 +31,9 @@ public class HeroPageActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        TextView textView = (TextView) findViewById(R.id.description);
+        textView.setText(hero.getName() + " " + hero.getDescription() + " " + hero.getComicsAvailable()
+        + " " + hero.getOnlineUrl() + " " + hero.getThumbnail());
     }
 }
