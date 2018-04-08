@@ -1,8 +1,10 @@
 package com.example.alysson.marvelcomics;
 
 import android.content.Context;
+import android.hardware.camera2.TotalCaptureResult;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.alysson.marvelcomics.dummy.DummyContent;
 import com.example.alysson.marvelcomics.dummy.DummyContent.DummyItem;
@@ -66,6 +69,7 @@ public class heroFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_hero_list, container, false);
+        final View view2 = view;
         handler = new Handler();
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -87,6 +91,9 @@ public class heroFragment extends Fragment {
                     //mHeroes.add(null);
                     //myheroRecyclerViewAdapter.notifyItemInserted(mHeroes.size()-1);
                     //handler.postDelayed
+//                    Snackbar.make(view2, "Loading new characteres", Snackbar.LENGTH_LONG)
+//                            .setAction("Action", null).show();
+                    Toast.makeText(getContext(), "Loading", Toast.LENGTH_LONG).show();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {

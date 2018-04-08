@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.example.alysson.marvelcomics.dummy.DummyContent;
 

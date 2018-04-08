@@ -87,7 +87,7 @@ public class MyheroRecyclerViewAdapter extends RecyclerView.Adapter<MyheroRecycl
             try {
                 if (mHeroes.get(position) != null) {
                     holder.mContentView.setText(mHeroes.get(position).getName());
-                    Picasso.get().load("http://www.blogdoselback.com.br/wp-content/uploads/2017/06/Marvel-Comics-800x420-710x373.jpg").into(holder.mPerfilHero);
+                    Picasso.get().load(mHeroes.get(position).getThumbnail()).into(holder.mPerfilHero);
                 }
             }catch (Exception e){
                 e.printStackTrace();

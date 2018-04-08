@@ -96,7 +96,7 @@ public class HeroService {
                             hero.getJSONObject("stories").getInt("available"),
                             hero.getJSONObject("events").getInt("available"),
                             hero.getJSONArray("urls").getJSONObject(1).getString("url"),
-                            hero.getJSONObject("thumbnail").getString("path")+"."+hero.getJSONObject("thumbnail").getString("extension")
+                            thumbnailUrl(hero.getJSONObject("thumbnail").getString("path")+"."+hero.getJSONObject("thumbnail").getString("extension"))
                     ));
         }
         if (lastID == 0){
@@ -123,6 +123,12 @@ public class HeroService {
             e.printStackTrace();
         }
         return "";
+    }
+
+    String thumbnailUrl(String url){
+        Long timestamp = System.currentTimeMillis();
+        String hash = generateHash(String.valueOf(timestamp), publicKey, privateKey);
+        return url+"?ts=" + timestamp + "&apikey=" + publicKey + "&hash=" + hash;
     }
 
     public int getLastID() {
