@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.example.alysson.marvelcomics.dummy.DummyContent;
 import com.example.alysson.marvelcomics.dummy.DummyContent.DummyItem;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,10 +30,11 @@ public class heroFragment extends Fragment {
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
-    private int mColumnCount = 2;
+    private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
     private List<Hero> mHeroes;
     private Handler handler;
+    private final HeroService heroService = new HeroService();
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -74,24 +76,47 @@ public class heroFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            mHeroes = getFirstData();
+            mHeroes = ((MainActivity) getActivity()).getHeroes();
+            heroService.setLastID(mHeroes.get(mHeroes.size()-1).getId());
+            heroService.setLimitID(((MainActivity) getActivity()).getLimitID());
             final MyheroRecyclerViewAdapter myheroRecyclerViewAdapter = new MyheroRecyclerViewAdapter(this.getContext(), mHeroes, mListener, recyclerView);
             recyclerView.setAdapter(myheroRecyclerViewAdapter);
             myheroRecyclerViewAdapter.setOnLoadMoreListener(new MyheroRecyclerViewAdapter.OnLoadMoreListener() {
                 @Override
                 public void onLoadMore() {
-                    mHeroes.add(null);
-                    myheroRecyclerViewAdapter.notifyItemInserted(mHeroes.size()-1);
+                    //mHeroes.add(null);
+                    //myheroRecyclerViewAdapter.notifyItemInserted(mHeroes.size()-1);
+                    //handler.postDelayed
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            mHeroes.remove(mHeroes.size()-1);
-                            myheroRecyclerViewAdapter.notifyItemRemoved(mHeroes.size());
-                            for(int i = 0; i < 15; i++){
-                                mHeroes.add(new Hero(""+i, "Spider", "Man"));
-                                myheroRecyclerViewAdapter.notifyItemInserted(mHeroes.size());
-                            }
+                            //mHeroes.remove(mHeroes.size()-1);
+                            //myheroRecyclerViewAdapter.notifyItemRemoved(mHeroes.size());
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        //heroService.getHeroes();
+                                        if (heroService.getLastID() == 0) {
+                                            mHeroes.addAll(heroService.getHeroes());
+                                        }else{
+                                            for (int i = 0; i < 10; i++) {
+                                                mHeroes.addAll(heroService.getHeroes());
+                                            }
+                                        }
+                                        //mHeroes.add(new Hero("99", "Thread", "Man"));
+                                        myheroRecyclerViewAdapter.notifyItemInserted(mHeroes.size());
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }).start();
                             myheroRecyclerViewAdapter.setLoaded();
+//                            for(int i = 0; i < 15; i++){
+//                                mHeroes.add(new Hero(""+i, "Spider", "Man"));
+                                //myheroRecyclerViewAdapter.notifyItemInserted(mHeroes.size());
+                            //}
+                            //myheroRecyclerViewAdapter.setLoaded();
                         }
                     }, 2000);
                     Log.d("heroFragment", "Load");
@@ -122,7 +147,7 @@ public class heroFragment extends Fragment {
     private List<Hero> getFirstData(){
         List<Hero> heroList = new ArrayList<Hero>();
         for(int i = 0; i < 10; i++){
-            heroList.add(new Hero(i+"", "Teste", "Teste"));
+            heroList.add(new Hero(i, "Teste", "Teste"));
         }
         return heroList;
     }
@@ -138,6 +163,6 @@ public class heroFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(Hero item);
     }
 }
