@@ -1,16 +1,21 @@
 package com.example.alysson.marvelcomics;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.alysson.marvelcomics.heroFragment.OnListFragmentInteractionListener;
 import com.example.alysson.marvelcomics.dummy.DummyContent.DummyItem;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -81,13 +86,14 @@ public class MyheroRecyclerViewAdapter extends RecyclerView.Adapter<MyheroRecycl
             holder.hero = mHeroes.get(position);
             try {
                 if (mHeroes.get(position) != null) {
-                    holder.mIdView.setText(mHeroes.get(position).getId());
                     holder.mContentView.setText(mHeroes.get(position).getName());
+                    Picasso.get().load("http://www.blogdoselback.com.br/wp-content/uploads/2017/06/Marvel-Comics-800x420-710x373.jpg").into(holder.mPerfilHero);
                 }
             }catch (Exception e){
                 e.printStackTrace();
             }
         } else {
+            Log.d("Hero", "MyProgress");
             ((ProgressViewHolder)holder).progressBar.setIndeterminate(true);
         }
 //        holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -125,21 +131,26 @@ public class MyheroRecyclerViewAdapter extends RecyclerView.Adapter<MyheroRecycl
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public final View mView;
-        public final TextView mIdView;
         public final TextView mContentView;
+        public final ImageView mPerfilHero;
         public Hero hero;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
             mView.setOnClickListener(this);
-            mIdView = (TextView) view.findViewById(R.id.item_number);
             mContentView = (TextView) view.findViewById(R.id.content);
+            mPerfilHero = (ImageView) view.findViewById(R.id.perfilHero);
+            //http://www.blogdoselback.com.br/wp-content/uploads/2017/06/Marvel-Comics-800x420-710x373.jpg
         }
 
         @Override
         public void onClick(View view){
-
+            //Toast.makeText(mContext, "Click", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(mContext, HeroPageActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("HERO", this.hero);
+            mContext.startActivity(intent);
         }
 
         @Override
