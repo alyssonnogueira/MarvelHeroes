@@ -9,5 +9,5 @@
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context=".heroFragment"
+    tools:context=".ViewModels.heroFragment"
     tools:listitem="@layout/fragment_hero" />

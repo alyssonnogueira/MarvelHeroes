@@ -1,17 +1,15 @@
-package com.example.alysson.marvelcomics;
+package com.example.alysson.marvelcomics.Views;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
-import com.example.alysson.marvelcomics.dummy.DummyContent;
+import com.example.alysson.marvelcomics.Models.Hero;
+import com.example.alysson.marvelcomics.R;
+import com.example.alysson.marvelcomics.ViewModels.heroFragment;
 
-import java.io.Serializable;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements heroFragment.OnListFragmentInteractionListener{

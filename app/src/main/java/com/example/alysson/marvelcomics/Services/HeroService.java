@@ -1,6 +1,6 @@
-package com.example.alysson.marvelcomics;
+package com.example.alysson.marvelcomics.Services;
 
-import android.util.Log;
+import com.example.alysson.marvelcomics.Models.Hero;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -9,7 +9,6 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.Buffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -18,7 +17,6 @@ import java.util.List;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
 
 public class HeroService {
 
@@ -30,7 +28,7 @@ public class HeroService {
     private int lastID = 0;
     private int limitID = 0;
 
-    HeroService(){
+    public HeroService(){
         client = new OkHttpClient();
         publicKey = "00554ed173ff5ed8e7af907d22bfbd12";
         privateKey = "f3902fec4b3a20657f036147416e1d1dee609ba1";

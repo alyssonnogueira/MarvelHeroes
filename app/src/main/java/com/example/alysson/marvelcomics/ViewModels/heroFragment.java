@@ -1,10 +1,8 @@
-package com.example.alysson.marvelcomics;
+package com.example.alysson.marvelcomics.ViewModels;
 
 import android.content.Context;
-import android.hardware.camera2.TotalCaptureResult;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,10 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.alysson.marvelcomics.dummy.DummyContent;
-import com.example.alysson.marvelcomics.dummy.DummyContent.DummyItem;
+import com.example.alysson.marvelcomics.Services.HeroService;
+import com.example.alysson.marvelcomics.Views.MainActivity;
+import com.example.alysson.marvelcomics.Models.Hero;
+import com.example.alysson.marvelcomics.R;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,17 +87,10 @@ public class heroFragment extends Fragment {
             myheroRecyclerViewAdapter.setOnLoadMoreListener(new MyheroRecyclerViewAdapter.OnLoadMoreListener() {
                 @Override
                 public void onLoadMore() {
-                    //mHeroes.add(null);
-                    //myheroRecyclerViewAdapter.notifyItemInserted(mHeroes.size()-1);
-                    //handler.postDelayed
-//                    Snackbar.make(view2, "Loading new characteres", Snackbar.LENGTH_LONG)
-//                            .setAction("Action", null).show();
-                    Toast.makeText(getContext(), "Loading", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Loading", Toast.LENGTH_SHORT).show();
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            //mHeroes.remove(mHeroes.size()-1);
-                            //myheroRecyclerViewAdapter.notifyItemRemoved(mHeroes.size());
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -111,7 +103,6 @@ public class heroFragment extends Fragment {
                                                 mHeroes.addAll(heroService.getHeroes());
                                             }
                                         }
-                                        //mHeroes.add(new Hero("99", "Thread", "Man"));
                                         myheroRecyclerViewAdapter.notifyItemInserted(mHeroes.size());
                                     } catch (Exception e) {
                                         e.printStackTrace();
@@ -119,13 +110,8 @@ public class heroFragment extends Fragment {
                                 }
                             }).start();
                             myheroRecyclerViewAdapter.setLoaded();
-//                            for(int i = 0; i < 15; i++){
-//                                mHeroes.add(new Hero(""+i, "Spider", "Man"));
-                                //myheroRecyclerViewAdapter.notifyItemInserted(mHeroes.size());
-                            //}
-                            //myheroRecyclerViewAdapter.setLoaded();
                         }
-                    }, 2000);
+                    }, 100);
                     Log.d("heroFragment", "Load");
                 }
             });
@@ -151,13 +137,6 @@ public class heroFragment extends Fragment {
         mListener = null;
     }
 
-    private List<Hero> getFirstData(){
-        List<Hero> heroList = new ArrayList<Hero>();
-        for(int i = 0; i < 10; i++){
-            heroList.add(new Hero(i, "Teste", "Teste"));
-        }
-        return heroList;
-    }
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

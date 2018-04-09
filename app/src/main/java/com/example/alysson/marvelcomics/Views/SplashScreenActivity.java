@@ -1,21 +1,24 @@
-package com.example.alysson.marvelcomics;
+package com.example.alysson.marvelcomics.Views;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 
+import com.example.alysson.marvelcomics.Services.HeroService;
+import com.example.alysson.marvelcomics.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SplashScreenActivity extends AppCompatActivity {
     private static String TAG = "LOG";
@@ -42,16 +45,33 @@ public class SplashScreenActivity extends AppCompatActivity {
         final HeroService heroService = new HeroService();
         final ArrayList<Parcelable> heroes = new ArrayList<Parcelable>();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    heroes.addAll(heroService.getHeroes());
-                } catch (Exception e) {
-                    e.printStackTrace();
+        final ConnectivityManager conMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        final NetworkInfo activeNetwork = conMgr.getActiveNetworkInfo();
+        if (activeNetwork != null && activeNetwork.isConnected()) {
+            // notify user you are online
+            Log.d("net", "net");
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        heroes.addAll(heroService.getHeroes());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        }).start();
+            }).start();
+        } else {
+            // notify user you are not online
+            Log.d("net", "net else");
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(this); //Read Update
+            alertDialog.setMessage("Você está sem conexão de Internet, por favor tente novamente mais tarde.");
+            alertDialog.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    SplashScreenActivity.this.finish();
+                }
+            });
+            alertDialog.show();
+        }
 
         Handler handle = new Handler();
         handle.postDelayed(new Runnable() {
@@ -62,15 +82,12 @@ public class SplashScreenActivity extends AppCompatActivity {
 
                     Intent intent = new Intent(SplashScreenActivity.this,
                             MainActivity.class);
-//                    for(int i = 0; i < heroes.size(); i++) {
-//                        intent.putExtra("Hero"+i, heroes.get(i));
-//                    }
                     intent.putExtra("limitID", heroService.getLimitID());
                     intent.putExtra("arrayList", heroes);
                     startActivity(intent);
                     finish();
             }
-        }, 2000);
+        }, 100);
     }
 
 }

@@ -1,4 +1,4 @@
-package com.example.alysson.marvelcomics;
+package com.example.alysson.marvelcomics.Models;
 
 import android.os.Parcel;
 import android.os.Parcelable;

@@ -1,4 +1,4 @@
-package com.example.alysson.marvelcomics;
+package com.example.alysson.marvelcomics.ViewModels;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,16 +11,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.alysson.marvelcomics.heroFragment.OnListFragmentInteractionListener;
-import com.example.alysson.marvelcomics.dummy.DummyContent.DummyItem;
+import com.example.alysson.marvelcomics.Views.HeroPageActivity;
+import com.example.alysson.marvelcomics.Models.Hero;
+import com.example.alysson.marvelcomics.R;
+import com.example.alysson.marvelcomics.ViewModels.heroFragment.OnListFragmentInteractionListener;
+
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link Hero} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type. MyheroRecyclerViewAdapter.ViewHolder
  */
@@ -96,16 +98,6 @@ public class MyheroRecyclerViewAdapter extends RecyclerView.Adapter<MyheroRecycl
             Log.d("Hero", "MyProgress");
             ((ProgressViewHolder)holder).progressBar.setIndeterminate(true);
         }
-//        holder.mView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (null != mListener) {
-//                    // Notify the active callbacks interface (the activity, if the
-//                    // fragment is attached to one) that an item has been selected.
-//                    mListener.onListFragmentInteraction(holder.hero);
-//                }
-//            }
-//        });
     }
 
     public void setLoad(){
